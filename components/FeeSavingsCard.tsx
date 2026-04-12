@@ -24,11 +24,11 @@ export function FeeSavingsCard({ annualSavingsUsd }: Props) {
   ];
 
   return (
-    <div className="glass-card rounded-xl p-7 border-gradient relative overflow-hidden">
+    <div className="glass-card rounded-xl p-6 border-gradient relative overflow-hidden">
       {/* Subtle gradient accent at top */}
       <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#fbbf24]/40 to-transparent"></div>
       
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex justify-between items-start mb-5">
         <div>
           <h3 className="text-zinc-500 text-sm font-medium tracking-wide uppercase">Annual Savings</h3>
           <div className="text-4xl font-extrabold gradient-text-gold mt-2 tracking-tight">

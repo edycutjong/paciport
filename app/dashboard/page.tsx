@@ -40,10 +40,10 @@ export default async function DashboardPage() {
           </div>
         </header>
 
-        <main className="layout-container px-8 pt-12 pb-24">
+        <main className="layout-container pt-10 pb-20">
           {/* Dashboard Hero */}
-          <div className="mb-12 stagger-1 text-center">
-            <div className="flex flex-col items-center justify-center gap-4 mb-8">
+          <div className="mb-10 stagger-1 text-center">
+            <div className="flex flex-col items-center justify-center gap-4 mb-6">
               <div>
                 <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
                   1-Click Migration Engine
@@ -56,7 +56,7 @@ export default async function DashboardPage() {
             </div>
 
             {/* Quick Stats Row */}
-            <div className="grid grid-cols-3 gap-5 stagger-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 stagger-2">
               <div className="glass rounded-xl px-5 py-4 flex items-center gap-4">
                 <div className="w-8 h-8 rounded-lg bg-[#06b6d4]/10 flex items-center justify-center">
                   <Clock className="w-4 h-4 text-[#06b6d4]" />
@@ -87,7 +87,7 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-10 items-start">
+          <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8 items-start">
             {/* Left Col - Migration Interface */}
             <div className="stagger-3">
               <SplitScreenMigration sourcePositions={sourcePositions} />

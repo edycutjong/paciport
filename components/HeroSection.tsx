@@ -11,7 +11,7 @@ export function HeroSection() {
   };
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-6 text-center layout-container py-20 md:py-28 relative">
+    <main className="flex-1 flex flex-col items-center justify-center px-6 text-center layout-container pt-28 pb-24 md:pt-36 md:pb-32 relative mx-auto">
       {/* Floating orbs */}
       <div className="hero-orb hero-orb-1"></div>
       <div className="hero-orb hero-orb-2"></div>
@@ -27,23 +27,24 @@ export function HeroSection() {
       </div>
 
       {/* Headline */}
-      <h1 className="stagger-2 text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight mb-6 leading-[1.05]">
+      <h1 className="stagger-2 text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight mb-8 leading-[1.05]">
         Stop giving your <br className="hidden md:block" />
         <span className="gradient-text-gold">fees</span>{' '}to competitor
         <br className="hidden md:block" /> exchanges.
       </h1>
 
       {/* Sub-headline */}
-      <p className="stagger-3 text-lg md:text-xl text-zinc-400 mb-12 max-w-2xl leading-relaxed">
-        The 1-click delta-neutral migration engine for pro traders.
-        Move open perpetual positions to Pacifica in <span className="text-[#06b6d4] font-semibold">{'<'} 200ms</span> with zero market exposure.
-      </p>
+      <div className="flex flex-col items-center justify-center w-full stagger-3 mb-8">
+        <p className="text-lg md:text-xl text-zinc-400 max-w-2xl leading-relaxed text-center text-balance">
+          The 1-click delta-neutral migration engine for pro traders. Move open perpetual positions to Pacifica in <span className="text-[#06b6d4] font-semibold">{'<'} 200ms</span> with zero market exposure.
+        </p>
+      </div>
 
       {/* CTA Buttons */}
-      <div className="stagger-3 flex flex-col sm:flex-row items-center gap-4 mb-16">
+      <div className="stagger-3 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10 w-full">
         <button
           onClick={handleDemoLogin}
-          className="btn-demo px-8 py-4 rounded-2xl text-base flex items-center gap-3 group"
+          className="btn-demo px-8 py-4 rounded-2xl text-base flex items-center justify-center gap-3 w-full sm:w-[260px] group"
         >
           <Play className="w-4 h-4 fill-current" />
           Try Demo Account
@@ -51,7 +52,7 @@ export function HeroSection() {
         </button>
         <button
           onClick={handleDemoLogin}
-          className="btn-secondary px-8 py-4 rounded-2xl text-base flex items-center gap-2"
+          className="btn-secondary px-8 py-4 rounded-2xl text-base flex items-center justify-center gap-3 w-full sm:w-[260px]"
         >
           Connect Exchange
         </button>

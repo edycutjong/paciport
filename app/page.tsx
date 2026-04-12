@@ -39,7 +39,7 @@ export default function Home() {
         <HeroSection />
 
         {/* Live Ticker Bar */}
-        <div className="border-y border-zinc-800/40 bg-[#0a0a18]/60 backdrop-blur-sm py-3 overflow-hidden stagger-4 w-full">
+        <div className="border-y border-zinc-800/40 bg-[#0a0a18]/60 backdrop-blur-sm py-3.5 overflow-hidden stagger-4 w-full">
           <div className="layout-container relative overflow-hidden">
             <div className="ticker-track">
               {[
@@ -69,7 +69,7 @@ export default function Home() {
         </div>
 
         {/* Stats Bar */}
-        <section id="demo" className="layout-container py-20 px-8">
+        <section id="demo" className="layout-container py-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { label: 'Avg Migration', value: '<200ms', icon: Clock },
@@ -87,12 +87,12 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section id="features" className="layout-container pb-32 px-8">
-          <div className="text-center mb-16 stagger-5">
+        <section id="features" className="layout-container pt-4 pb-24">
+          <div className="flex flex-col items-center justify-center text-center w-full mb-16 stagger-5">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Why traders <span className="gradient-text-cyan">choose PaciPort</span>
             </h2>
-            <p className="text-zinc-500 max-w-lg mx-auto">
+            <p className="text-zinc-500 max-w-lg text-center text-balance mx-auto">
               Military-grade position migration engine designed for professional perpetual futures traders.
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-800/40 py-8 px-8 mt-auto">
+        <footer className="border-t border-zinc-800/40 py-8 mt-auto">
           <div className="layout-container flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-zinc-600">
               <ExchangeLogo exchange="pacifica" size={16} />
