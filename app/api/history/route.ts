@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getMockPositions } from '@/lib/db-mock';
+import { getMigrations } from '@/lib/db-mock';
 
 export async function GET() {
   try {
-    const positions = getMockPositions();
-    return NextResponse.json({ positions });
+    const migrations = getMigrations();
+    return NextResponse.json({ migrations });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
