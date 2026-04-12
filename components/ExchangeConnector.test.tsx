@@ -1,6 +1,13 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ExchangeConnector } from './ExchangeConnector';
 
+// Mock next/navigation
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
+
 describe('ExchangeConnector', () => {
   it('should render initial state', () => {
     render(<ExchangeConnector />);
@@ -37,4 +44,14 @@ describe('ExchangeConnector', () => {
     fireEvent.click(screen.getByText('Disconnect'));
     expect(screen.getByText('Connect Binance Futures')).toBeDefined();
   });
+
+  it('should navigate to dashboard when Try Demo Account is clicked', () => {
+    render(<ExchangeConnector />);
+    const demoButton = screen.getByText(/Try Demo Account/i);
+    fireEvent.click(demoButton);
+    
+    expect(mockPush).toHaveBeenCalledWith('/dashboard');
+  });
+
 });
+

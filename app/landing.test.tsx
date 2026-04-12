@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import LandingPage from './page';
 import React from 'react';
 
@@ -13,6 +13,13 @@ jest.mock('framer-motion', () => ({
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
+// Mock next/navigation
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+}));
+
+
 describe('LandingPage', () => {
   it('should render main headline', () => {
     render(<LandingPage />);
@@ -26,4 +33,22 @@ describe('LandingPage', () => {
     expect(screen.getByText(/Zero Price Risk/i)).toBeDefined();
     expect(screen.getByText(/Instantly Save Fees/i)).toBeDefined();
   });
+
+  it('should navigate to dashboard on demo button click', () => {
+    render(<LandingPage />);
+    const demoButton = screen.getByText(/Try Demo Account/i);
+    fireEvent.click(demoButton);
+    
+    expect(mockPush).toHaveBeenCalledWith('/dashboard');
+  });
+
+  it('should navigate to dashboard on connect button click', () => {
+    render(<LandingPage />);
+    const connectButton = screen.getByText(/Connect Exchange/i);
+    fireEvent.click(connectButton);
+    
+    expect(mockPush).toHaveBeenCalledWith('/dashboard');
+  });
+
 });
+
