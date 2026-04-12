@@ -1,0 +1,39 @@
+
+> paciport@0.1.0 lint
+> eslint .
+
+
+/Users/edycu/Projects/Hackathon/PaciPort/app/page.tsx
+  150:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/edycu/Projects/Hackathon/PaciPort/components/PositionCard.tsx
+  32:23  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/edycu/Projects/Hackathon/PaciPort/components/PositionCard.tsx:32:23
+  30 |
+  31 |   useEffect(() => {
+> 32 |     if (now === null) setNow(Date.now());
+     |                       ^^^^^^ Avoid calling setState() directly within an effect
+  33 |     if (migrated && migratedAt) {
+  34 |       const interval = setInterval(() => {
+  35 |         setNow(Date.now());  react-hooks/set-state-in-effect
+  39:6   warning  React Hook useEffect has a missing dependency: 'now'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/exhaustive-deps
+
+/Users/edycu/Projects/Hackathon/PaciPort/lib/exchange-client.ts
+  1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+
+/Users/edycu/Projects/Hackathon/PaciPort/lib/migration-engine.ts
+  51:3  warning  '_maxSlippage' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/edycu/Projects/Hackathon/PaciPort/scripts/take-screenshots.ts
+  2:8  warning  'path' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 6 problems (1 error, 5 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
