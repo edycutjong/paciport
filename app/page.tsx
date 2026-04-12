@@ -10,26 +10,28 @@ export default function Home() {
       <div className="noise-overlay"></div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        {/* Header */}
-        <header className="max-w-[1400px] w-full mx-auto px-6 h-20 flex items-center justify-between stagger-1">
-          <div className="flex items-center gap-2.5 group">
-            <ExchangeLogo exchange="pacifica" size={32} />
-            <span className="font-bold text-2xl tracking-tight text-zinc-100 group-hover:text-[#06b6d4] transition-colors">
-              Paci<span className="text-[#06b6d4]">Port</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-sm font-mono text-zinc-500 border border-zinc-800/60 px-3 py-1.5 rounded-full bg-[#0a0a18]/60 backdrop-blur-sm">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 live-dot"></div>
-              Pacifica Testnet
+        <header className="border-b border-zinc-800/40 bg-[#0a0a18]/80 backdrop-blur-2xl sticky top-0 z-50">
+          <div className="layout-container px-6 h-20 flex items-center justify-between">
+            <div className="flex items-center gap-2.5 group">
+              <ExchangeLogo exchange="pacifica" size={32} />
+              <span className="font-bold text-2xl tracking-tight text-zinc-100 group-hover:text-[#06b6d4] transition-colors">
+                Paci<span className="text-[#06b6d4]">Port</span>
+              </span>
             </div>
-            <Link 
-              href="/dashboard"
-              className="hidden md:flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-[#06b6d4] transition-colors"
-            >
-              Dashboard
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            
+            <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-2 text-sm font-mono text-zinc-500 border border-zinc-800/60 px-3 py-1.5 rounded-full bg-[#0a0a18]/60 backdrop-blur-sm">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 live-dot"></div>
+                Pacifica Testnet
+              </div>
+              <Link 
+                href="/dashboard"
+                className="flex items-center gap-2 text-sm font-medium text-zinc-100 bg-[#06b6d4]/10 hover:bg-[#06b6d4]/20 border border-[#06b6d4]/20 px-5 py-2 rounded-lg transition-all"
+              >
+                Dashboard
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
         </header>
 
@@ -65,7 +67,7 @@ export default function Home() {
         </div>
 
         {/* Stats Bar */}
-        <section className="max-w-[1200px] w-full mx-auto px-8 py-20 stagger-5">
+        <section id="demo" className="layout-container py-20 px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { label: 'Avg Migration', value: '<200ms', icon: Clock },
@@ -83,7 +85,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="max-w-[1200px] w-full mx-auto px-8 pb-32">
+        <section id="features" className="layout-container pb-32 px-8">
           <div className="text-center mb-16 stagger-5">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Why traders <span className="gradient-text-cyan">choose PaciPort</span>

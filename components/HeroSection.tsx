@@ -11,7 +11,7 @@ export function HeroSection() {
   };
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-5xl mx-auto py-20 md:py-28 relative">
+    <main className="flex-1 flex flex-col items-center justify-center px-6 text-center layout-container py-20 md:py-28 relative">
       {/* Floating orbs */}
       <div className="hero-orb hero-orb-1"></div>
       <div className="hero-orb hero-orb-2"></div>

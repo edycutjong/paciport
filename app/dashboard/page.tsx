@@ -17,7 +17,7 @@ export default async function DashboardPage() {
       <div className="relative z-10">
         {/* Enhanced Header */}
         <header className="border-b border-zinc-800/40 bg-[#0a0a18]/80 backdrop-blur-2xl sticky top-0 z-50">
-          <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="layout-container px-6 h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2.5 group">
               <ExchangeLogo exchange="pacifica" size={28} />
               <span className="font-bold text-xl tracking-tight text-zinc-100 group-hover:text-[#06b6d4] transition-colors">
@@ -40,15 +40,15 @@ export default async function DashboardPage() {
           </div>
         </header>
 
-        <main className="max-w-[1400px] mx-auto px-8 pt-12 pb-24">
+        <main className="layout-container px-8 pt-12 pb-24">
           {/* Dashboard Hero */}
-          <div className="mb-12 stagger-1">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div className="mb-12 stagger-1 text-center">
+            <div className="flex flex-col items-center justify-center gap-4 mb-8">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">
+                <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight">
                   1-Click Migration Engine
                 </h1>
-                <p className="text-zinc-500 max-w-2xl">
+                <p className="text-zinc-500 max-w-2xl mx-auto">
                   Select your positions on Binance and migrate them to Pacifica with zero market exposure. 
                   Delta-neutral teleportation in milliseconds.
                 </p>
