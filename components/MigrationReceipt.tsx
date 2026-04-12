@@ -12,9 +12,9 @@ export function MigrationReceipt({ migration, onDismiss }: Props) {
   return (
     <div className="glass-card rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full mx-auto border-gradient relative">
       {/* Top gradient accent */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/60 to-transparent"></div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-green-500/60 to-transparent"></div>
       
-      <div className="bg-gradient-to-b from-green-500/5 to-transparent p-10 border-b border-zinc-800/30 text-center">
+      <div className="bg-linear-to-b from-green-500/5 to-transparent p-10 border-b border-zinc-800/30 text-center">
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-500/10 text-green-400 mb-4 ring-1 ring-green-500/20">
           <CheckCircle2 className="w-7 h-7" />
         </div>

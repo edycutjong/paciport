@@ -136,7 +136,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
         {/* Source Panel */}
         <div className="flex flex-col bg-[#0a0a18] border border-[#f59e0b]/15 rounded-2xl overflow-hidden shadow-2xl shadow-[#f59e0b]/5 relative">
           {/* Top accent line */}
-          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#f59e0b]/40 to-transparent z-10"></div>
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-[#f59e0b]/40 to-transparent z-10"></div>
           
           <div className="bg-[#10102a]/80 border-b border-[#f59e0b]/15 px-5 py-4 flex items-center gap-3 backdrop-blur-sm">
             <ExchangeLogo exchange="binance" size={24} />
@@ -156,7 +156,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
         {/* Center Action Zone */}
         <div className="hidden lg:flex flex-col items-center justify-center gap-8 relative z-50">
           {/* Glowing connection line */}
-          <div className="absolute top-0 bottom-0 left-1/2 w-px bg-gradient-to-b from-transparent via-[#3b82f6]/20 to-transparent -translate-x-1/2"></div>
+          <div className="absolute top-0 bottom-0 left-1/2 w-px bg-linear-to-b from-transparent via-[#3b82f6]/20 to-transparent -translate-x-1/2"></div>
           
           <button
             onClick={executeMigration}
@@ -164,7 +164,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
             className={`
               w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 relative
               ${selectedIds.size > 0 && !isMigrating 
-                ? 'bg-gradient-to-br from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] hover:scale-110' 
+                ? 'bg-linear-to-br from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] hover:scale-110' 
                 : 'bg-zinc-900/60 text-zinc-600 cursor-not-allowed border border-zinc-800/40'}
             `}
           >
@@ -190,7 +190,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
             disabled={selectedIds.size === 0 || isMigrating}
             className={`w-full py-4 font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-3 ${
               selectedIds.size > 0 && !isMigrating 
-              ? 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+              ? 'bg-linear-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
               : 'bg-zinc-900/60 text-zinc-600 cursor-not-allowed border border-zinc-800/40'
             }`}
           >
@@ -202,7 +202,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
         {/* Destination Panel */}
         <div className="flex flex-col bg-[#0a0a18] border border-[#06b6d4]/20 rounded-2xl overflow-hidden shadow-2xl shadow-[#06b6d4]/5 relative">
           {/* Top accent line */}
-          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#06b6d4]/40 to-transparent z-10"></div>
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-[#06b6d4]/40 to-transparent z-10"></div>
           
           <div className="bg-[#10102a]/80 border-b border-[#06b6d4]/20 px-5 py-4 flex items-center gap-3 backdrop-blur-sm">
             <ExchangeLogo exchange="pacifica" size={24} />

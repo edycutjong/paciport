@@ -28,7 +28,7 @@ export function PositionCard({ position, isSelected, onToggleSelect, isMigrated,
     >
       {/* Subtle top glow on selected */}
       {isSelected && (
-        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#3b82f6] to-transparent"></div>
+        <div className="absolute top-0 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-[#3b82f6] to-transparent"></div>
       )}
 
       {/* Selection indicator */}
@@ -44,7 +44,7 @@ export function PositionCard({ position, isSelected, onToggleSelect, isMigrated,
       )}
 
       {isMigrated && (
-        <div className="absolute top-0 right-0 bg-gradient-to-l from-[#06b6d4] to-[#06b6d4]/80 text-[#050510] text-[10px] font-bold px-2.5 py-0.5 rounded-bl-lg tracking-wide">
+        <div className="absolute top-0 right-0 bg-linear-to-l from-[#06b6d4] to-[#06b6d4]/80 text-[#050510] text-[10px] font-bold px-2.5 py-0.5 rounded-bl-lg tracking-wide">
           ✅ MIGRATED
         </div>
       )}
