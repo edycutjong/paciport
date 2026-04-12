@@ -15,6 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://paciport.vercel.app"),
   title: "PaciPort — 1-Click Position Migration",
   description:
     "Migrate open perpetual positions from Binance to Pacifica in < 2 seconds. Zero market exposure. Zero price risk.",
@@ -34,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`h-full ${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-background text-(--text-primary) font-sans" suppressHydrationWarning>
         {children}
       </body>
