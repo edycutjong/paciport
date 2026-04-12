@@ -14,7 +14,7 @@ export function MigrationReceipt({ migration, onDismiss }: Props) {
       {/* Top gradient accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-green-500/60 to-transparent"></div>
       
-      <div className="bg-linear-to-b from-green-500/5 to-transparent p-10 border-b border-zinc-800/30 text-center">
+      <div className="bg-linear-to-b from-green-500/5 to-transparent p-8 border-b border-zinc-800/30 text-center">
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-500/10 text-green-400 mb-4 ring-1 ring-green-500/20">
           <CheckCircle2 className="w-7 h-7" />
         </div>
@@ -25,7 +25,7 @@ export function MigrationReceipt({ migration, onDismiss }: Props) {
         </p>
       </div>
       
-      <div className="p-10">
+      <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex-1 bg-[#050510] border border-zinc-800/30 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-2">
@@ -60,16 +60,16 @@ export function MigrationReceipt({ migration, onDismiss }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-5 mb-10">
+        <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-[#050510] rounded-xl p-5 text-center border border-zinc-800/20">
             <div className="text-xs text-zinc-600 mb-1.5">Execution Time</div>
             <div className="font-mono text-zinc-100 font-semibold text-lg">{formatTimeMs(migration.executionTimeMs || 0)}</div>
           </div>
-          <div className="bg-[#050510] rounded-xl p-4 text-center border border-zinc-800/20">
+          <div className="bg-[#050510] rounded-xl p-5 text-center border border-zinc-800/20">
             <div className="text-xs text-zinc-600 mb-1.5">Net Slippage</div>
             <div className="font-mono text-zinc-100 font-semibold text-lg">{(migration.slippagePct || 0).toFixed(4)}%</div>
           </div>
-          <div className="bg-[#050510] rounded-xl p-4 text-center border border-zinc-800/20">
+          <div className="bg-[#050510] rounded-xl p-5 text-center border border-zinc-800/20">
             <div className="text-xs text-zinc-600 mb-1.5">Exposure Gap</div>
             <div className="font-mono text-green-400 font-semibold text-lg">&lt; 100ms</div>
           </div>
