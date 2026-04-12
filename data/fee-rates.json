@@ -1,0 +1,18 @@
+{
+  "binance": {
+    "maker": 0.00020,
+    "taker": 0.00050
+  },
+  "bybit": {
+    "maker": 0.00020,
+    "taker": 0.00055
+  },
+  "okx": {
+    "maker": 0.00020,
+    "taker": 0.00050
+  },
+  "pacifica": {
+    "maker": 0.00010,
+    "taker": 0.00025
+  }
+}

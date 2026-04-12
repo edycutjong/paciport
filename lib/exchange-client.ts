@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import ccxt, { Exchange } from "ccxt";
 
 interface ExchangeCredentials {
@@ -25,7 +26,7 @@ export function getExchangeClient(exchangeId: string, credentials: ExchangeCrede
     throw new Error(`Unsupported exchange: ${exchangeId}`);
   }
 
-  // @ts-ignore
+  // @ts-expect-error External CCXT logic
   const ExchangeClass = ccxt[ccxtExchangeId];
   
   const client: Exchange = new ExchangeClass({

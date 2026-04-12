@@ -1,0 +1,44 @@
+[
+  {
+    "id": "pos-sol-long-1",
+    "symbol": "SOL/USDT",
+    "displaySymbol": "SOL-PERP",
+    "side": "long",
+    "size": 100,
+    "entryPrice": 142.50,
+    "currentPrice": 148.20,
+    "leverage": 10,
+    "marginUsd": 1482.00,
+    "unrealizedPnlUsd": 570.00,
+    "notionalUsd": 14820.00,
+    "selectedForMigration": false
+  },
+  {
+    "id": "pos-eth-short-1",
+    "symbol": "ETH/USDT",
+    "displaySymbol": "ETH-PERP",
+    "side": "short",
+    "size": 2.5,
+    "entryPrice": 3200.00,
+    "currentPrice": 3150.00,
+    "leverage": 5,
+    "marginUsd": 1575.00,
+    "unrealizedPnlUsd": 125.00,
+    "notionalUsd": 7875.00,
+    "selectedForMigration": false
+  },
+  {
+    "id": "pos-btc-long-1",
+    "symbol": "BTC/USDT",
+    "displaySymbol": "BTC-PERP",
+    "side": "long",
+    "size": 0.5,
+    "entryPrice": 61200.00,
+    "currentPrice": 62500.00,
+    "leverage": 3,
+    "marginUsd": 10416.67,
+    "unrealizedPnlUsd": 650.00,
+    "notionalUsd": 31250.00,
+    "selectedForMigration": false
+  }
+]
