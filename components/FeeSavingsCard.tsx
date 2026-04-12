@@ -38,29 +38,31 @@ export function FeeSavingsCard({ annualSavingsUsd }: Props) {
         </div>
       </div>
       
-      <div className="h-32 w-full mt-4" style={{ minWidth: 0, minHeight: 120 }}>
+      <div className="h-32 w-full mt-4 relative" style={{ minHeight: '120px' }}>
         {mounted ? (
-          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={120}>
-            <BarChart data={data} layout="vertical" margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-              <XAxis type="number" hide />
-              <YAxis dataKey="name" type="category" width={80} tick={{fill: '#71717a', fontSize: 12}} axisLine={false} tickLine={false} />
-              <Tooltip 
-                cursor={{fill: 'rgba(255,255,255,0.03)'}} 
-                contentStyle={{
-                  backgroundColor: '#0a0a18', 
-                  border: '1px solid rgba(255,255,255,0.06)', 
-                  borderRadius: '12px',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
-                }}
-                formatter={(val: number | string | readonly (number | string)[] | undefined) => formatCurrency(Number(Array.isArray(val) ? val[0] : (val || 0)))}
-              />
-              <Bar dataKey="fees" radius={[0, 6, 6, 0]} barSize={24}>
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.name === 'Pacifica' ? '#06b6d4' : '#f59e0b'} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="absolute inset-0">
+            <ResponsiveContainer width="99%" height="100%">
+              <BarChart data={data} layout="vertical" margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" width={80} tick={{fill: '#71717a', fontSize: 12}} axisLine={false} tickLine={false} />
+                <Tooltip 
+                  cursor={{fill: 'rgba(255,255,255,0.03)'}} 
+                  contentStyle={{
+                    backgroundColor: '#0a0a18', 
+                    border: '1px solid rgba(255,255,255,0.06)', 
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+                  }}
+                  formatter={(val: number | string | readonly (number | string)[] | undefined) => formatCurrency(Number(Array.isArray(val) ? val[0] : (val || 0)))}
+                />
+                <Bar dataKey="fees" radius={[0, 6, 6, 0]} barSize={24}>
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.name === 'Pacifica' ? '#06b6d4' : '#f59e0b'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         ) : (
           <div className="flex flex-col justify-center gap-4 h-full">
             <div className="flex items-center gap-3">
