@@ -131,16 +131,19 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
   return (
     <div className="w-full flex flex-col gap-6">
       
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] gap-6 relative">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] gap-8 relative">
         
         {/* Source Panel */}
-        <div className="flex flex-col bg-[#111113] border border-[#f59e0b]/20 rounded-xl overflow-hidden shadow-xl shadow-[#f59e0b]/5 relative">
-          <div className="bg-[#1a1a1e] border-b border-[#f59e0b]/20 p-4 flex items-center gap-3">
+        <div className="flex flex-col bg-[#0a0a18] border border-[#f59e0b]/15 rounded-2xl overflow-hidden shadow-2xl shadow-[#f59e0b]/5 relative">
+          {/* Top accent line */}
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#f59e0b]/40 to-transparent z-10"></div>
+          
+          <div className="bg-[#10102a]/80 border-b border-[#f59e0b]/15 px-5 py-4 flex items-center gap-3 backdrop-blur-sm">
             <ExchangeLogo exchange="binance" size={24} />
             <h2 className="font-bold text-zinc-100 tracking-wide font-mono">BINANCE FUTURES</h2>
             {isMigrating && <div className="ml-auto w-2 h-2 rounded-full bg-[#f59e0b] animate-ping" />}
           </div>
-          <div className="p-4 flex-1">
+          <div className="p-5 flex-1">
             <PositionTable 
               positions={positions} 
               selectedIds={selectedIds} 
@@ -152,24 +155,31 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
 
         {/* Center Action Zone */}
         <div className="hidden lg:flex flex-col items-center justify-center gap-8 relative z-50">
+          {/* Glowing connection line */}
+          <div className="absolute top-0 bottom-0 left-1/2 w-px bg-gradient-to-b from-transparent via-[#3b82f6]/20 to-transparent -translate-x-1/2"></div>
+          
           <button
             onClick={executeMigration}
             disabled={selectedIds.size === 0 || isMigrating}
             className={`
-              w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300
+              w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 relative
               ${selectedIds.size > 0 && !isMigrating 
-                ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_#3b82f6] hover:bg-[#60a5fa] hover:scale-110' 
-                : 'bg-[#27272a] text-zinc-500 cursor-not-allowed'}
+                ? 'bg-gradient-to-br from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] hover:scale-110' 
+                : 'bg-zinc-900/60 text-zinc-600 cursor-not-allowed border border-zinc-800/40'}
             `}
           >
-            <ArrowRight className="w-8 h-8" strokeWidth={3} />
+            {isMigrating ? (
+              <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            ) : (
+              <ArrowRight className="w-8 h-8" strokeWidth={3} />
+            )}
           </button>
           
           <div className="w-full flex items-center flex-col gap-2">
-            <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-1">
+            <div className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest flex items-center gap-1">
               <Settings2 className="w-3 h-3" /> Max Slippage
             </div>
-            <div className="text-zinc-300 font-mono text-sm">{maxSlippage.toFixed(2)}%</div>
+            <div className="text-zinc-400 font-mono text-sm">{maxSlippage.toFixed(2)}%</div>
           </div>
         </div>
 
@@ -180,8 +190,8 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
             disabled={selectedIds.size === 0 || isMigrating}
             className={`w-full py-4 font-bold text-lg rounded-xl transition-all flex items-center justify-center gap-3 ${
               selectedIds.size > 0 && !isMigrating 
-              ? 'bg-[#3b82f6] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
-              : 'bg-[#27272a] text-zinc-500 cursor-not-allowed'
+              ? 'bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+              : 'bg-zinc-900/60 text-zinc-600 cursor-not-allowed border border-zinc-800/40'
             }`}
           >
             MIGRATE {selectedIds.size > 0 ? formatCurrency(totalSelectedNotional) : ''}
@@ -190,16 +200,22 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
         </div>
 
         {/* Destination Panel */}
-        <div className="flex flex-col bg-[#111113] border border-[#06b6d4]/30 rounded-xl overflow-hidden shadow-xl shadow-[#06b6d4]/10 relative">
-          <div className="bg-[#1a1a1e] border-b border-[#06b6d4]/30 p-4 flex items-center gap-3">
+        <div className="flex flex-col bg-[#0a0a18] border border-[#06b6d4]/20 rounded-2xl overflow-hidden shadow-2xl shadow-[#06b6d4]/5 relative">
+          {/* Top accent line */}
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#06b6d4]/40 to-transparent z-10"></div>
+          
+          <div className="bg-[#10102a]/80 border-b border-[#06b6d4]/20 px-5 py-4 flex items-center gap-3 backdrop-blur-sm">
             <ExchangeLogo exchange="pacifica" size={24} />
             <h2 className="font-bold text-zinc-100 tracking-wide font-mono">PACIFICA EXCHANGE</h2>
             {isMigrating && <div className="ml-auto w-2 h-2 rounded-full bg-[#06b6d4] animate-ping" />}
           </div>
-          <div className="p-4 flex-1 flex flex-col gap-3 overflow-y-auto">
+          <div className="p-5 flex-1 flex flex-col gap-3 overflow-y-auto">
             {migratedPositions.length === 0 ? (
-              <div className="h-full border border-dashed border-[#27272a] rounded-xl p-8 flex flex-col items-center justify-center text-center bg-[#111113]/50">
-                <p className="text-zinc-500 max-w-[200px]">Migrated positions will appear here instantly</p>
+              <div className="h-full border border-dashed border-zinc-800/30 rounded-xl p-10 flex flex-col items-center justify-center text-center bg-[#050510]/50">
+                <div className="w-14 h-14 rounded-full bg-[#06b6d4]/5 flex items-center justify-center mb-4">
+                  <ArrowRight className="w-5 h-5 text-[#06b6d4]/30" />
+                </div>
+                <p className="text-zinc-600 max-w-[200px] text-sm">Migrated positions will appear here instantly</p>
               </div>
             ) : (
               migratedPositions.map(pos => (
@@ -236,24 +252,24 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
 
       {/* Execution Log */}
       {migrationStatusLog.length > 0 && !showReceipt && (
-        <div className="bg-[#111113] border border-[#27272a] rounded-lg p-4 font-mono text-sm leading-relaxed overflow-hidden">
+        <div className="glass rounded-xl p-5 font-mono text-sm leading-relaxed overflow-hidden border-gradient">
           {migrationStatusLog.map((log, i) => (
             <motion.div 
               key={i}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className={log.includes('❌') ? "text-red-400" : log.includes('✅') ? "text-green-400" : "text-zinc-400"}
+              className={log.includes('❌') ? "text-red-400" : log.includes('✅') ? "text-green-400" : "text-zinc-500"}
             >
               {log}
             </motion.div>
           ))}
-          {isMigrating && <motion.div animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-2 h-4 bg-zinc-400 mt-2" />}
+          {isMigrating && <motion.div animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-2 h-4 bg-[#06b6d4] mt-2 rounded-sm" />}
         </div>
       )}
 
       {/* Post-Migration Receipt overlay/Modal */}
       {showReceipt && lastMigration && (
-        <div className="fixed inset-0 z-100 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-100 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
           <motion.div 
             initial={{ scale: 0.9, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
