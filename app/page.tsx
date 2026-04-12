@@ -39,30 +39,32 @@ export default function Home() {
         <HeroSection />
 
         {/* Live Ticker Bar */}
-        <div className="border-y border-zinc-800/40 bg-[#0a0a18]/60 backdrop-blur-sm py-3 overflow-hidden stagger-4">
-          <div className="ticker-track">
-            {[
-              { symbol: 'BTC-PERP', price: '$62,500', change: '+2.4%', positive: true },
-              { symbol: 'ETH-PERP', price: '$3,150', change: '-0.8%', positive: false },
-              { symbol: 'SOL-PERP', price: '$148.20', change: '+5.1%', positive: true },
-              { symbol: 'ARB-PERP', price: '$1.42', change: '+1.2%', positive: true },
-              { symbol: 'DOGE-PERP', price: '$0.182', change: '-1.5%', positive: false },
-              { symbol: 'AVAX-PERP', price: '$38.90', change: '+3.7%', positive: true },
-              { symbol: 'BTC-PERP', price: '$62,500', change: '+2.4%', positive: true },
-              { symbol: 'ETH-PERP', price: '$3,150', change: '-0.8%', positive: false },
-              { symbol: 'SOL-PERP', price: '$148.20', change: '+5.1%', positive: true },
-              { symbol: 'ARB-PERP', price: '$1.42', change: '+1.2%', positive: true },
-              { symbol: 'DOGE-PERP', price: '$0.182', change: '-1.5%', positive: false },
-              { symbol: 'AVAX-PERP', price: '$38.90', change: '+3.7%', positive: true },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-6 px-8 text-sm whitespace-nowrap">
-                <span className="font-mono font-semibold text-zinc-300">{item.symbol}</span>
-                <span className="font-mono text-zinc-500">{item.price}</span>
-                <span className={`font-mono font-semibold ${item.positive ? 'text-green-500' : 'text-red-500'}`}>
-                  {item.change}
-                </span>
-              </div>
-            ))}
+        <div className="border-y border-zinc-800/40 bg-[#0a0a18]/60 backdrop-blur-sm py-3 overflow-hidden stagger-4 w-full">
+          <div className="layout-container relative overflow-hidden">
+            <div className="ticker-track">
+              {[
+                { symbol: 'BTC-PERP', price: '$62,500', change: '+2.4%', positive: true },
+                { symbol: 'ETH-PERP', price: '$3,150', change: '-0.8%', positive: false },
+                { symbol: 'SOL-PERP', price: '$148.20', change: '+5.1%', positive: true },
+                { symbol: 'ARB-PERP', price: '$1.42', change: '+1.2%', positive: true },
+                { symbol: 'DOGE-PERP', price: '$0.182', change: '-1.5%', positive: false },
+                { symbol: 'AVAX-PERP', price: '$38.90', change: '+3.7%', positive: true },
+                { symbol: 'BTC-PERP', price: '$62,500', change: '+2.4%', positive: true },
+                { symbol: 'ETH-PERP', price: '$3,150', change: '-0.8%', positive: false },
+                { symbol: 'SOL-PERP', price: '$148.20', change: '+5.1%', positive: true },
+                { symbol: 'ARB-PERP', price: '$1.42', change: '+1.2%', positive: true },
+                { symbol: 'DOGE-PERP', price: '$0.182', change: '-1.5%', positive: false },
+                { symbol: 'AVAX-PERP', price: '$38.90', change: '+3.7%', positive: true },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-6 px-8 text-sm whitespace-nowrap">
+                  <span className="font-mono font-semibold text-zinc-300">{item.symbol}</span>
+                  <span className="font-mono text-zinc-500">{item.price}</span>
+                  <span className={`font-mono font-semibold ${item.positive ? 'text-green-500' : 'text-red-500'}`}>
+                    {item.change}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -141,8 +143,8 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-800/40 py-8 px-6 mt-auto">
-          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <footer className="border-t border-zinc-800/40 py-8 px-8 mt-auto">
+          <div className="layout-container flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-zinc-600">
               <ExchangeLogo exchange="pacifica" size={16} />
               <span>PaciPort © 2026 — Built for Pacifica Exchange Hackathon</span>

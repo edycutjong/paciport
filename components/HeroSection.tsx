@@ -29,7 +29,7 @@ export function HeroSection() {
       {/* Headline */}
       <h1 className="stagger-2 text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight mb-6 leading-[1.05]">
         Stop giving your <br className="hidden md:block" />
-        <span className="gradient-text-gold">fees</span> to competitor
+        <span className="gradient-text-gold">fees</span>{' '}to competitor
         <br className="hidden md:block" /> exchanges.
       </h1>
 

@@ -76,12 +76,6 @@ body {
   width: 100%;
 }
 
-.layout-container {
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
 
 /* ===== AMBIENT BACKGROUND ===== */
 .bg-ambient {
@@ -380,11 +374,9 @@ body {
 /* ===== RESPONSIVE LAYOUT ===== */
 .layout-container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 48px;
-  padding-right: 48px;
 }
 
 .three-col-grid {
@@ -398,10 +390,6 @@ body {
   .three-col-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-  .layout-container {
-    padding-left: 20px;
-    padding-right: 20px;
   }
 }
 
