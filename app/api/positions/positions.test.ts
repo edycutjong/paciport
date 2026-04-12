@@ -18,4 +18,17 @@ describe('Positions API', () => {
     expect(data.positions).toHaveLength(1);
     expect(data.positions[0].symbol).toBe('BTC/USDT');
   });
+
+  it('should return 500 on error', async () => {
+    (dbMock.getMockPositions as jest.Mock).mockImplementation(() => {
+      throw new Error('Database connection failed');
+    });
+
+    const res = await GET();
+    const data = await res.json();
+    
+    expect(res.status).toBe(500);
+    expect(data.error).toBe('Database connection failed');
+  });
 });
+
