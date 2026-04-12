@@ -1,211 +1,79 @@
-"use client";
+import { formatCurrency, formatTimeMs } from '@/lib/format';
+import type { Migration } from '@/lib/types';
+import { ExchangeLogo } from './ExchangeLogo';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
-import { useState, useEffect } from "react";
-import { MigrationResult } from "@/lib/types";
-import { motion } from "framer-motion";
-
-interface MigrationReceiptProps {
-  result: MigrationResult;
-  annualSavings: number;
-  onClose: () => void;
+interface Props {
+  migration: Migration;
+  onDismiss: () => void;
 }
 
-export default function MigrationReceipt({
-  result,
-  annualSavings,
-  onClose,
-}: MigrationReceiptProps) {
-  const isSuccess = result.status === "success";
-
+export function MigrationReceipt({ migration, onDismiss }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9, y: 30 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      className="glass-elevated rounded-2xl p-7 max-w-lg mx-auto relative overflow-hidden"
-      style={{
-        boxShadow: isSuccess
-          ? "0 0 80px rgba(6,182,212,0.1), 0 25px 50px rgba(0,0,0,0.5)"
-          : "0 0 80px rgba(239,68,68,0.1), 0 25px 50px rgba(0,0,0,0.5)",
-      }}
-    >
-      {/* Top accent line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background: isSuccess
-            ? "linear-gradient(90deg, transparent, var(--primary), var(--migrate), transparent)"
-            : "linear-gradient(90deg, transparent, var(--loss), transparent)",
-        }}
-      />
-
-      {/* Header */}
-      <div className="text-center mb-6">
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", delay: 0.2, stiffness: 200 }}
-          className="text-5xl mb-3"
-        >
-          {isSuccess ? "✅" : "❌"}
-        </motion.div>
-        <h3 className="text-xl font-bold text-[var(--text-primary)]">
-          {isSuccess ? "Position Migrated" : "Migration Failed"}
-        </h3>
-        <p className="text-[13px] text-[var(--text-muted)] mt-1">
-          {isSuccess ? "Delta-neutral swap completed successfully" : "One or more execution legs failed"}
-        </p>
+    <div className="bg-[#111113] border border-[#27272a] rounded-xl overflow-hidden shadow-2xl max-w-2xl w-full mx-auto">
+      <div className="bg-gradient-to-r from-[#111113] via-[#1a1a1e] to-[#111113] p-6 border-b border-[#27272a] text-center">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 text-green-500 mb-4">
+          <CheckCircle2 className="w-6 h-6" />
+        </div>
+        <h2 className="text-xl font-bold text-zinc-100">Position Successfully Migrated</h2>
+        <p className="text-zinc-500 mt-1">Delta-neutral execution complete</p>
       </div>
-
-      {/* Before / After */}
-      {isSuccess && (
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass rounded-xl p-4 relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-[var(--competitor)]/40 to-transparent" />
-            <p className="text-[10px] uppercase tracking-[0.15em] text-[var(--competitor)] font-bold mb-2">
-              Binance · Closed
-            </p>
-            <p className="font-mono font-bold text-[var(--text-primary)] text-base">{result.position.symbol}</p>
-            <p className="font-mono text-sm text-[var(--text-secondary)]">
-              {result.position.leverage}× {result.position.side.toUpperCase()}
-            </p>
-            <p className="font-mono text-[12px] text-[var(--text-muted)] mt-2">
-              Fill: <span className="text-[var(--text-secondary)]">${result.sourceLeg.fillPrice?.toLocaleString()}</span>
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-            className="glass rounded-xl p-4 relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-[var(--primary)]/40 to-transparent" />
-            <p className="text-[10px] uppercase tracking-[0.15em] text-[var(--primary)] font-bold mb-2">
-              Pacifica · Open
-            </p>
-            <p className="font-mono font-bold text-[var(--text-primary)] text-base">{result.position.symbol}</p>
-            <p className="font-mono text-sm text-[var(--text-secondary)]">
-              {result.position.leverage}× {result.position.side.toUpperCase()}
-            </p>
-            <p className="font-mono text-[12px] text-[var(--text-muted)] mt-2">
-              Fill: <span className="text-[var(--text-secondary)]">${result.destinationLeg.fillPrice?.toLocaleString()}</span>
-            </p>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Execution Metrics */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="glass rounded-xl p-5 mb-6"
-      >
-        <p className="text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] font-semibold mb-4">
-          Execution Metrics
-        </p>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="text-center">
-            <motion.p
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.6 }}
-              className="font-mono font-black text-xl text-[var(--speed-gold)]"
-            >
-              {result.executionTimeMs?.toLocaleString()}ms
-            </motion.p>
-            <p className="text-[10px] text-[var(--text-muted)] mt-1 uppercase tracking-wider">Time</p>
+      
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex-1 bg-[#1a1a1e] border border-[#27272a] rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ExchangeLogo exchange="binance" size={16} />
+              <span className="text-xs font-semibold text-zinc-400 tracking-wider">BINANCE</span>
+            </div>
+            <div className="font-mono font-bold text-zinc-100 text-lg">{migration.symbol}</div>
+            <div className="text-sm text-zinc-500 mb-2">{migration.leverage}x {migration.side.toUpperCase()}</div>
+            <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#27272a]">
+              <span className="text-xs text-zinc-500">Status</span>
+              <span className="text-xs font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded">CLOSED</span>
+            </div>
           </div>
-          <div className="text-center">
-            <motion.p
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.7 }}
-              className="font-mono font-black text-xl text-[var(--success)]"
-            >
-              {result.netSlippage?.toFixed(3)}%
-            </motion.p>
-            <p className="text-[10px] text-[var(--text-muted)] mt-1 uppercase tracking-wider">Slippage</p>
+          
+          <div className="px-4 text-zinc-600">
+            <ArrowRight className="w-6 h-6" />
           </div>
-          <div className="text-center">
-            <motion.p
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", delay: 0.8 }}
-              className="font-mono font-black text-xl text-[var(--primary)]"
-            >
-              &lt;100ms
-            </motion.p>
-            <p className="text-[10px] text-[var(--text-muted)] mt-1 uppercase tracking-wider">Exposure</p>
+          
+          <div className="flex-1 bg-[#06b6d4]/5 border border-[#06b6d4]/20 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ExchangeLogo exchange="pacifica" size={16} />
+              <span className="text-xs font-semibold text-[#06b6d4] tracking-wider">PACIFICA</span>
+            </div>
+            <div className="font-mono font-bold text-zinc-100 text-lg">{migration.symbol}</div>
+            <div className="text-sm text-zinc-500 mb-2">{migration.leverage}x {migration.side.toUpperCase()}</div>
+            <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#06b6d4]/20">
+              <span className="text-xs text-[#06b6d4]/60">Status</span>
+              <span className="text-xs font-bold text-[#06b6d4] bg-[#06b6d4]/10 px-2 py-0.5 rounded">OPEN</span>
+            </div>
           </div>
         </div>
-      </motion.div>
 
-      {/* Fee Savings */}
-      {isSuccess && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="glass rounded-xl p-5 mb-6 text-center relative overflow-hidden"
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="bg-[#1a1a1e] rounded-lg p-3 text-center">
+            <div className="text-xs text-zinc-500 mb-1">Execution Time</div>
+            <div className="font-mono text-zinc-100 font-semibold">{formatTimeMs(migration.executionTimeMs || 0)}</div>
+          </div>
+          <div className="bg-[#1a1a1e] rounded-lg p-3 text-center">
+            <div className="text-xs text-zinc-500 mb-1">Net Slippage</div>
+            <div className="font-mono text-zinc-100 font-semibold">{(migration.slippagePct || 0).toFixed(4)}%</div>
+          </div>
+          <div className="bg-[#1a1a1e] rounded-lg p-3 text-center">
+            <div className="text-xs text-zinc-500 mb-1">Exposure Gap</div>
+            <div className="font-mono text-green-400 font-semibold">&lt; 100ms</div>
+          </div>
+        </div>
+        
+        <button 
+          onClick={onDismiss}
+          className="w-full bg-[#27272a] hover:bg-[#3f3f46] text-white font-semibold py-3 rounded-lg transition-colors"
         >
-          <motion.div
-            animate={{ x: ["-100%", "100%"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--speed-gold)]/5 to-transparent pointer-events-none"
-          />
-          <p className="text-sm text-[var(--text-secondary)] mb-2 relative z-10">
-            Annual fee savings on Pacifica
-          </p>
-          <AnimatedCounter target={annualSavings} />
-        </motion.div>
-      )}
-
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={onClose}
-        className="w-full py-3 rounded-xl bg-gradient-to-r from-[var(--migrate-deep)] to-[var(--migrate)] text-white font-bold text-sm uppercase tracking-widest
-          hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-300"
-      >
-        Continue Trading
-      </motion.button>
-    </motion.div>
-  );
-}
-
-function AnimatedCounter({ target }: { target: number }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const duration = 1000;
-    const startTime = performance.now();
-
-    function animate(now: number) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4); // quartic easing
-      setCount(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
-  }, [target]);
-
-  return (
-    <motion.p
-      initial={{ scale: 0.8 }}
-      animate={{ scale: 1 }}
-      className="font-mono font-black text-3xl text-[var(--speed-gold)] relative z-10"
-    >
-      ${count.toLocaleString()}/year
-    </motion.p>
+          Close Receipt
+        </button>
+      </div>
+    </div>
   );
 }
