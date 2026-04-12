@@ -54,8 +54,7 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 }
 
-* {
-  margin: 0;
+*, *::before, *::after {
   padding: 0;
   box-sizing: border-box;
 }
@@ -66,6 +65,7 @@ html {
 }
 
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-sans);
@@ -229,26 +229,29 @@ body {
   opacity: 0.4;
 }
 /* ===== RESPONSIVE LAYOUT ===== */
-@layer utilities {
-  .layout-container {
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 32px;
-    padding-right: 32px;
-  }
+.layout-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 48px;
+  padding-right: 48px;
+}
 
-  .three-col-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr);
-    gap: 20px;
-    align-items: start;
-  }
+.three-col-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
 }
 
 @media (max-width: 1024px) {
   .three-col-grid {
-    grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .layout-container {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
