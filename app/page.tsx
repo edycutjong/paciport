@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { ExchangeLogo } from '@/components/ExchangeLogo';
-import { ArrowRight, ShieldCheck, Zap, Coins } from 'lucide-react';
+import { ShieldCheck, Zap, Coins } from 'lucide-react';
 import { ExchangeConnector } from '@/components/ExchangeConnector';
 
 export default function Home() {
@@ -53,12 +52,12 @@ export default function Home() {
             <div className="glass rounded-xl p-6 border border-zinc-800/50 hover:border-[#06b6d4]/30 transition-colors">
               <ShieldCheck className="w-8 h-8 text-[#06b6d4] mb-4" />
               <h3 className="font-bold text-lg mb-2">Zero Price Risk</h3>
-              <p className="text-zinc-400 text-sm">Our delta-neutral orchestrator guarantees you won't get slippage dumped while migrating.</p>
+              <p className="text-zinc-400 text-sm">Our delta-neutral orchestrator guarantees you won&apos;t get slippage dumped while migrating.</p>
             </div>
             <div className="glass rounded-xl p-6 border border-zinc-800/50 hover:border-[#06b6d4]/30 transition-colors">
               <Coins className="w-8 h-8 text-[#06b6d4] mb-4" />
               <h3 className="font-bold text-lg mb-2">Instantly Save Fees</h3>
-              <p className="text-zinc-400 text-sm">Enjoy Pacifica's superior fee tiers and deep liquidity pools the moment the migration completes.</p>
+              <p className="text-zinc-400 text-sm">Enjoy Pacifica&apos;s superior fee tiers and deep liquidity pools the moment the migration completes.</p>
             </div>
           </div>
         </main>

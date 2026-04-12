@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import ccxt, { Exchange } from "ccxt";
 
 interface ExchangeCredentials {

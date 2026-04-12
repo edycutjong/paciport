@@ -33,7 +33,7 @@ export function FeeSavingsCard({ annualSavingsUsd }: Props) {
             <Tooltip 
               cursor={{fill: 'rgba(255,255,255,0.05)'}} 
               contentStyle={{backgroundColor: '#1a1a1e', border: '1px solid #27272a', borderRadius: '8px'}}
-              formatter={(val: any) => formatCurrency(Number(val))}
+              formatter={(val: number | string | readonly (number | string)[] | undefined) => formatCurrency(Number(Array.isArray(val) ? val[0] : (val || 0)))}
             />
             <Bar dataKey="fees" radius={[0, 4, 4, 0]} barSize={24}>
               {data.map((entry, index) => (

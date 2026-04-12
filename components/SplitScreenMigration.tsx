@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExchangeLogo } from './ExchangeLogo';
 import { PositionTable } from './PositionTable';
@@ -24,7 +24,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
   const [migrationStatusLog, setMigrationStatusLog] = useState<string[]>([]);
   const [lastMigration, setLastMigration] = useState<Migration | null>(null);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [maxSlippage, setMaxSlippage] = useState(0.1);
+  const [maxSlippage] = useState(0.1);
 
   // Determine flying pos
   const [flyingPosId, setFlyingPosId] = useState<string | null>(null);

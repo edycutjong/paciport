@@ -1,4 +1,4 @@
-import { formatCurrency, formatTimeMs } from '@/lib/format';
+import { formatTimeMs } from '@/lib/format';
 import type { Migration } from '@/lib/types';
 import { ExchangeLogo } from './ExchangeLogo';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';

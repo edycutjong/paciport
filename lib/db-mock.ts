@@ -1,4 +1,4 @@
-import { type Migration, type MigrationStatus, type Position } from './types';
+import { type Migration, type Position } from './types';
 import demoPositions from '../data/demo-positions.json';
 
 // In-memory store for demo

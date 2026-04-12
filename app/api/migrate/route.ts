@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createMigration, getMockPositions, updateMigration } from '@/lib/db-mock';
-import type { MigrationRequest, Position } from '@/lib/types';
+import type { Migration, MigrationRequest, Position } from '@/lib/types';
 
 export async function POST(req: Request) {
   try {
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Positions not found' }, { status: 404 });
     }
 
-    const migrationStatuses: any[] = [];
+    const migrationStatuses: Migration[] = [];
 
     // Process migrations concurrently but track them individually
     for (const position of positions) {
@@ -51,8 +51,8 @@ export async function POST(req: Request) {
       success: true, 
       migrations: migrationStatuses 
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
 
