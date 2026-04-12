@@ -253,7 +253,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
 
       {/* Post-Migration Receipt overlay/Modal */}
       {showReceipt && lastMigration && (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-100 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <motion.div 
             initial={{ scale: 0.9, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}

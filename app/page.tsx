@@ -32,7 +32,7 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
-            Stop giving your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f59e0b] to-yellow-300">fees</span> <br/>
+            Stop giving your <span className="text-transparent bg-clip-text bg-linear-to-r from-[#f59e0b] to-yellow-300">fees</span> <br/>
             to competitor exchanges.
           </h1>
 

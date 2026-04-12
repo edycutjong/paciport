@@ -11,7 +11,7 @@ interface Props {
 export function MigrationReceipt({ migration, onDismiss }: Props) {
   return (
     <div className="bg-[#111113] border border-[#27272a] rounded-xl overflow-hidden shadow-2xl max-w-2xl w-full mx-auto">
-      <div className="bg-gradient-to-r from-[#111113] via-[#1a1a1e] to-[#111113] p-6 border-b border-[#27272a] text-center">
+      <div className="bg-linear-to-r from-[#111113] via-[#1a1a1e] to-[#111113] p-6 border-b border-[#27272a] text-center">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-500/10 text-green-500 mb-4">
           <CheckCircle2 className="w-6 h-6" />
         </div>
