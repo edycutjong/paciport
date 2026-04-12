@@ -43,31 +43,7 @@ PaciPort executes a **delta-neutral swap** — simultaneously closing a position
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Next.js 16 App                          │
-├────────────────────┬────────────────────────────────────────────┤
-│   Client (React 19 + Framer Motion)                            │
-│   ┌──────────┐  ┌──────────────┐  ┌────────────────────┐      │
-│   │ Position  │  │   Migrate    │  │ Migration Progress │      │
-│   │  Cards    │→ │   Button     │→ │   + Receipt        │      │
-│   └──────────┘  └──────────────┘  └────────────────────┘      │
-├────────────────────┬────────────────────────────────────────────┤
-│   API Routes       │  /api/migrate (POST) — execute migration  │
-│                    │  /api/positions (GET) — fetch positions    │
-├────────────────────┼────────────────────────────────────────────┤
-│   Migration Engine │  Delta-neutral swap execution              │
-│                    │  Concurrent order submission                │
-│                    │  Automatic rollback on partial failure      │
-├────────────────────┼────────────────────────────────────────────┤
-│   Exchange Layer   │  CCXT unified client (Binance + Pacifica)  │
-│                    │  Sandbox mode for demo safety               │
-│                    │  Exchange instance caching                  │
-├────────────────────┼────────────────────────────────────────────┤
-│   Data Layer       │  Supabase (credential storage)             │
-│                    │  Demo data with live price simulation       │
-└────────────────────┴────────────────────────────────────────────┘
-```
+![Architecture](./docs/architecture.png)
 
 ---
 
