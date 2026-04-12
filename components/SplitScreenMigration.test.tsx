@@ -29,6 +29,34 @@ const mockPositions: Position[] = [
     unrealizedPnlUsd: 100,
     notionalUsd: 5100,
     selectedForMigration: true,
+  },
+  {
+    id: '2',
+    symbol: 'ETH/USDT',
+    displaySymbol: 'ETH/USDT',
+    side: 'short',
+    size: 1,
+    entryPrice: 3000,
+    currentPrice: 2900,
+    leverage: 5,
+    marginUsd: 580,
+    unrealizedPnlUsd: 100,
+    notionalUsd: 2900,
+    selectedForMigration: true,
+  },
+  {
+    id: '3',
+    symbol: 'SOL/USDT',
+    displaySymbol: 'SOL/USDT',
+    side: 'long',
+    size: 10,
+    entryPrice: 100,
+    currentPrice: 110,
+    leverage: 3,
+    marginUsd: 366,
+    unrealizedPnlUsd: 100,
+    notionalUsd: 1100,
+    selectedForMigration: true,
   }
 ];
 
@@ -85,6 +113,7 @@ describe('SplitScreenMigration', () => {
     expect(screen.getByText(/Migration failed/i)).toBeDefined();
   });
 
+
   it('should handle position selection and Select All', () => {
     render(<SplitScreenMigration sourcePositions={mockPositions} />);
     
@@ -122,5 +151,81 @@ describe('SplitScreenMigration', () => {
       expect(screen.getByText(/Migration complete/i)).toBeDefined();
     }
   });
+
+  it('should allow selection changes when NOT migrating', () => {
+    render(<SplitScreenMigration sourcePositions={mockPositions} />);
+    
+    // Initial state: 1 position, 1 selected
+    expect(screen.getByText('3').textContent).toBe('3');
+    
+    // Toggle one by clicking a position card -> deselect
+    const btcCard = screen.getByText('BTC/USDT').closest('.cursor-pointer')!;
+    fireEvent.click(btcCard);
+    expect(screen.getByText('2')).toBeDefined(); // 2 selected now
+    
+    // Toggle back -> select
+    fireEvent.click(btcCard);
+    expect(screen.getByText('3')).toBeDefined(); 
+    // Back to 3 selected
+    
+    // Deselect All
+    const selectAllBtn = screen.getByText(/Select All/i);
+    fireEvent.click(selectAllBtn);
+    expect(screen.getByText('0')).toBeDefined(); // 0 selected
+    
+    // Select All again
+    fireEvent.click(selectAllBtn);
+    expect(screen.getByText('3')).toBeDefined(); // 3 selected
+  });
+
+  it('should not start migration if 0 positions selected', async () => {
+    (global.fetch as jest.Mock).mockClear();
+    render(<SplitScreenMigration sourcePositions={mockPositions} />);
+    
+    // Deselect all
+    const selectAllBtn = screen.getByText(/Select All/i);
+    fireEvent.click(selectAllBtn);
+    expect(screen.getByText('0')).toBeDefined();
+    
+    // Try migrate
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    fireEvent.click(migrateBtn);
+    
+    // Fetch should not have been called
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+
+
+  it('should not allow selection changes during migration', async () => {
+    (global.fetch as jest.Mock).mockReturnValue(new Promise(() => {})); // Never resolves to keep it migrating
+    
+    render(<SplitScreenMigration sourcePositions={mockPositions} />);
+    
+    // Start migration
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    fireEvent.click(migrateBtn);
+    
+    // Try to toggle selection while migrating
+    const checkbox = screen.getAllByRole('checkbox')[0];
+    fireEvent.click(checkbox);
+    
+    // Verify it's still checked (selection didn't change because of guard at line 33)
+    expect(checkbox).toBeChecked();
+
+    // Try Select All while migrating
+    const selectAllBtn = screen.getByText(/Select All/i);
+    fireEvent.click(selectAllBtn);
+    
+    // Still checked (line 41 guard)
+    expect(checkbox).toBeChecked();
+
+    // Try to click MIGRATE again while migrating (line 47 guard)
+    fireEvent.click(migrateBtn);
+    // (We could verify fetch count if we had a spy)
+  });
+
 });
+
+
 
