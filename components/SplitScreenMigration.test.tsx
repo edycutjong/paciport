@@ -5,15 +5,43 @@ import { Position } from '@/lib/types';
 import React from 'react';
 
 // Mock framer-motion to avoid animation issues in jsdom
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
-    p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
-    span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
-  },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
-}));
+jest.mock('framer-motion', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const makeEl = (tag: string) => {
+    const El = ({ children, animate, initial, exit, transition, whileHover, whileTap, variants, ...rest }: any) => {
+      void animate; void initial; void exit; void transition; void whileHover; void whileTap; void variants;
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      return require('react').createElement(tag, rest, children);
+    };
+    El.displayName = `MotionMock(${tag})`;
+    return El;
+  };
+  return {
+    motion: {
+      div: makeEl('div'),
+      span: makeEl('span'),
+      button: makeEl('button'),
+      p: makeEl('p'),
+      ul: makeEl('ul'),
+      li: makeEl('li'),
+      section: makeEl('section'),
+      article: makeEl('article'),
+      header: makeEl('header'),
+      footer: makeEl('footer'),
+      main: makeEl('main'),
+      aside: makeEl('aside'),
+      img: makeEl('img'),
+      svg: makeEl('svg'),
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    AnimatePresence: ({ children }: any) => children,
+    useSpring: (initial: number) => ({ set: jest.fn(), get: () => initial }),
+    useTransform: (_source: unknown, fn: (v: number) => string) => fn(0),
+    useMotionValue: (initial: number) => ({ set: jest.fn(), get: () => initial }),
+  };
+});
+
+
 
 const mockPositions: Position[] = [
   {
