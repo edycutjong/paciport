@@ -4,6 +4,7 @@ import { ExchangeLogo } from '@/components/ExchangeLogo';
 import { getMockPositions } from '@/lib/db-mock';
 import Link from 'next/link';
 import { Activity, Shield, Clock, ArrowLeft, Code2, Zap, TrendingUp } from 'lucide-react';
+import { FadeIn } from '@/components/FadeIn';
 
 export default async function DashboardPage() {
   const sourcePositions = getMockPositions();
@@ -73,7 +74,7 @@ export default async function DashboardPage() {
         <main className="layout-container px-6 pt-8 pb-24 flex-1">
 
           {/* ── Page Title ── */}
-          <div className="mb-8 stagger-1">
+          <FadeIn delay={0.1} className="mb-8">
             <div className="flex items-center gap-2 mb-3">
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-widest"
                 style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.2)', color: '#60a5fa' }}>
@@ -95,10 +96,10 @@ export default async function DashboardPage() {
             <p className="text-zinc-500 max-w-lg leading-relaxed">
               Select positions from Binance → migrate to Pacifica with atomic execution and zero market exposure.
             </p>
-          </div>
+          </FadeIn>
 
           {/* ── Quick Stats Strip ── */}
-          <div className="grid grid-cols-3 gap-3 mb-8 stagger-2">
+          <FadeIn delay={0.2} className="grid grid-cols-3 gap-3 mb-8">
             {[
               {
                 icon: <Clock className="w-4 h-4 text-[#06b6d4]" />,
@@ -148,10 +149,10 @@ export default async function DashboardPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </FadeIn>
 
           {/* ── Two-Column Layout ── */}
-          <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6 items-start stagger-3">
+          <FadeIn delay={0.3} className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6 items-start">
 
             {/* Left: Migration Interface */}
             <div>
@@ -244,15 +245,16 @@ export default async function DashboardPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </FadeIn>
         </main>
       </div>
 
       {/* ═══════════════ FAB ═══════════════ */}
-      <a
-        href="https://github.com/edycutjong/paciport"
-        target="_blank"
-        className="fixed bottom-6 right-6 flex items-center gap-2 px-4 py-3 rounded-full text-zinc-300 hover:text-white transition-all duration-300 z-50 stagger-6 group"
+      <FadeIn delay={0.6} className="fixed bottom-6 right-6 z-50">
+        <a
+          href="https://github.com/edycutjong/paciport"
+          target="_blank"
+          className="flex items-center gap-2 px-4 py-3 rounded-full text-zinc-300 hover:text-white transition-all duration-300 group"
         style={{
           background: 'rgba(6,6,16,0.9)',
           backdropFilter: 'blur(16px)',
@@ -265,6 +267,7 @@ export default async function DashboardPage() {
           View Source <span className="text-[#3b82f6] group-hover:translate-x-0.5 inline-block transition-transform">→</span>
         </span>
       </a>
+      </FadeIn>
     </div>
   );
 }
