@@ -90,9 +90,23 @@ describe('SplitScreenMigration', () => {
     expect(screen.getByText('BTC/USDT')).toBeDefined();
     
     // Click triggers an async handler with interleaved setTimeout & fetch.
-    // Wrapping click + full timer drain in one act() lets React process all state updates.
     await act(async () => {
       fireEvent.click(getMigrateButton());
+    });
+    
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(400); // Trigger lift phase
+    });
+
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(300); // Trigger fly phase
+    });
+
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(500); // Trigger land phase
+    });
+
+    await act(async () => {
       await jest.runAllTimersAsync();
     });
     
@@ -107,6 +121,14 @@ describe('SplitScreenMigration', () => {
     
     await act(async () => {
       fireEvent.click(getMigrateButton());
+    });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(400);
+    });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(300);
+    });
+    await act(async () => {
       await jest.runAllTimersAsync();
     });
     
@@ -138,6 +160,17 @@ describe('SplitScreenMigration', () => {
     
     await act(async () => {
       fireEvent.click(getMigrateButton());
+    });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(400);
+    });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(300);
+    });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(500);
+    });
+    await act(async () => {
       await jest.runAllTimersAsync();
     });
     
@@ -207,22 +240,64 @@ describe('SplitScreenMigration', () => {
     fireEvent.click(migrateBtn);
     
     // Try to toggle selection while migrating
-    const checkbox = screen.getAllByRole('checkbox')[0];
-    fireEvent.click(checkbox);
-    
-    // Verify it's still checked (selection didn't change because of guard at line 33)
-    expect(checkbox).toBeChecked();
-
-    // Try Select All while migrating
+    // For position table checkbox (Select All)
     const selectAllBtn = screen.getByText(/Select All/i);
     fireEvent.click(selectAllBtn);
     
-    // Still checked (line 41 guard)
-    expect(checkbox).toBeChecked();
+    // For individual position card
+    const btcCard = screen.getAllByText('BTC/USDT')[0]; // Card's inner text
+    fireEvent.click(btcCard);
+
+    // Verify selection didn't change (still 3 selected)
+    expect(screen.getByText('3')).toBeDefined();
 
     // Try to click MIGRATE again while migrating (line 47 guard)
+    migrateBtn.removeAttribute('disabled');
     fireEvent.click(migrateBtn);
     // (We could verify fetch count if we had a spy)
+  });
+
+  it('should hit early return if size is 0 and we force click', async () => {
+    (global.fetch as jest.Mock).mockClear();
+    render(<SplitScreenMigration sourcePositions={mockPositions} />);
+    
+    // Deselect all
+    const selectAllBtn = screen.getByText(/Select All/i);
+    fireEvent.click(selectAllBtn);
+    
+    // Force click migrate button while 0 selected
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    migrateBtn.removeAttribute('disabled');
+    fireEvent.click(migrateBtn);
+    
+    // Fetch should not have been called because it returned early
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('should skip positions that vanish before migration', async () => {
+    (global.fetch as jest.Mock).mockReturnValue(Promise.resolve({
+      ok: true,
+      json: async () => ({ success: true })
+    }));
+
+    const { rerender } = render(<SplitScreenMigration sourcePositions={mockPositions} />);
+    
+    // All 3 positions are selected initially.
+    // Re-render with empty sourcePositions, meaning the selected IDs are no longer valid data
+    rerender(<SplitScreenMigration sourcePositions={[]} />);
+
+    // Force click the migrate button to execute with stale selected IDs
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    migrateBtn.removeAttribute('disabled');
+    fireEvent.click(migrateBtn);
+
+    // advance timers
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    // Should not crash and should skip the vanished positions
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
 });
