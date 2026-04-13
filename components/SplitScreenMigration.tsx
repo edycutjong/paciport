@@ -236,7 +236,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
           }}
         >
           {/* Top edge scan-line */}
-          <div className="relative h-[1px] overflow-visible">
+          <div className="relative h-px overflow-visible">
             <ScanLine color="#f59e0b" />
           </div>
 
@@ -423,7 +423,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
           }}
         >
           {/* Top edge scan-line */}
-          <div className="relative h-[1px] overflow-visible">
+          <div className="relative h-px overflow-visible">
             <ScanLine color="#06b6d4" />
           </div>
 
@@ -639,7 +639,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+            className="fixed inset-0 z-200 flex items-center justify-center p-4"
             style={{ background: 'rgba(0,0,8,0.85)', backdropFilter: 'blur(16px)' }}
             onClick={() => setShowReceipt(false)}
           >
