@@ -10,21 +10,28 @@ export default function Home() {
       <div className="noise-overlay"></div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        <header className="border-b border-zinc-800/40 bg-[#0a0a18]/80 backdrop-blur-2xl sticky top-0 z-50">
-          <div className="layout-container px-6 h-20 flex items-center justify-between">
-            <div className="flex items-center gap-2.5 group">
+        <header
+          className="sticky top-0 z-50"
+          style={{
+            background: 'rgba(3,3,8,0.85)',
+            backdropFilter: 'blur(24px) saturate(1.5)',
+            borderBottom: '1px solid rgba(255,255,255,0.05)',
+          }}
+        >
+          <div className="layout-container px-6 h-[72px] flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2.5 group">
               <ExchangeLogo exchange="pacifica" size={32} />
-              <span className="font-bold text-2xl tracking-tight text-zinc-100 group-hover:text-[#06b6d4] transition-colors">
+              <span className="font-bold text-xl tracking-tight text-zinc-100 group-hover:text-[#06b6d4] transition-colors duration-300">
                 Paci<span className="text-[#06b6d4]">Port</span>
               </span>
-            </div>
-            
-            <div className="flex items-center gap-4">
+            </Link>
+
+            <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 text-sm font-mono text-zinc-500 border border-zinc-800/60 px-3 py-1.5 rounded-full bg-[#0a0a18]/60 backdrop-blur-sm">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 live-dot"></div>
                 Pacifica Testnet
               </div>
-              <Link 
+              <Link
                 href="/dashboard"
                 className="flex items-center gap-2 text-sm font-medium text-zinc-100 bg-[#06b6d4]/10 hover:bg-[#06b6d4]/20 border border-[#06b6d4]/20 px-5 py-2 rounded-lg transition-all"
               >
