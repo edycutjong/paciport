@@ -157,9 +157,9 @@ export default function Home() {
               <span>PaciPort © 2026 — Built for Pacifica Exchange Hackathon</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-zinc-600">
-              <span className="hover:text-zinc-400 transition-colors cursor-pointer">Docs</span>
-              <span className="hover:text-zinc-400 transition-colors cursor-pointer">GitHub</span>
-              <span className="hover:text-zinc-400 transition-colors cursor-pointer">API</span>
+              <Link href="/api-reference" className="hover:text-zinc-400 transition-colors">API</Link>
+              <a href="https://github.com/edycutjong/paciport" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors">GitHub</a>
+              <Link href="/api-reference" className="hover:text-zinc-400 transition-colors">Docs</Link>
             </div>
           </div>
         </footer>
