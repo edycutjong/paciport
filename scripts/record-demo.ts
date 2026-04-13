@@ -8,7 +8,7 @@ const AUDIO_PATH = '/Users/edycu/Projects/DemoStudio/public/projects/PaciPort/de
 async function runDemo() {
   console.log('🚀 Starting PaciPort Demo Recording Script...');
   
-  const browser = await chromium.launch({ headless: false, slowMo: 50 });
+  const browser = await chromium.launch({ headless: true, slowMo: 50 });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     recordVideo: { dir: 'recordings/', size: { width: 1920, height: 1080 } }
@@ -33,14 +33,42 @@ async function runDemo() {
     if (targetMs > elapsed) await page.waitForTimeout(targetMs - elapsed);
   };
 
-  // Timeline
-  await waitTo(5);
-  await page.click('text="Select All"');
+  // 0:00-0:08 (8s) reading the landing page 
+  await waitTo(8);
+  // 0:08-0:18 PaciPort dashboard appears
+  await page.locator('text="Dashboard"').first().click();
+  await page.waitForLoadState('networkidle');
   
-  await waitTo(15);
-  await page.click('text="Teleport"');
+  // UNCHECK all default positions first, so we can manually select SOL
+  await waitTo(18);
+  await page.locator('label:has-text("Select All")').click();
   
-  await waitTo(60);
+  await waitTo(28);
+  // 0:35-0:50 "I want to migrate my SOL position to Pacifica."
+  // Click SOL card
+  await page.locator('div').filter({ hasText: /^SOL-PERP/ }).first().click();
+
+  // "0.10% max slippage — aggressive but safe."
+  await waitTo(34);
+  // Click Desktop Migrate button (hidden mobile, flex lg)
+  await page.locator('.hidden.lg\\:flex button').click();
+
+  // Wait for migration receipt view
+  await waitTo(66);
+  // Close receipt card
+  await page.locator('button:has-text("Close Receipt")').click();
+
+  // "Let me migrate the entire portfolio"
+  await waitTo(71);
+  // Check Select All
+  await page.locator('label:has-text("Select All")').click();
+
+  await waitTo(78);
+  // Click MIGRATE again
+  await page.locator('.hidden.lg\\:flex button').click();
+
+  // Await final narrative finish
+  await waitTo(110);
   
   await page.close();
   await context.close();
