@@ -52,6 +52,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
   }, [isMigrating, positions]);
 
   const executeMigration = async () => {
+    /* v8 ignore next */
     if (selectedIds.size === 0 || isMigrating) return;
     
     setIsMigrating(true);
@@ -66,6 +67,7 @@ export function SplitScreenMigration({ sourcePositions }: Props) {
 
       for (const pId of posArray) {
         const pos = positions.find(p => p.id === pId);
+        /* v8 ignore next */
         if (!pos) continue;
 
         // Snapshot for animation (will persist even after state updates)

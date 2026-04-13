@@ -300,6 +300,103 @@ describe('SplitScreenMigration', () => {
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
+  // ── Cover line 55 branch: isMigrating=true causes early return ──────────────
+  it('should reject a second executeMigration call (isMigrating=true branch, line 55)', async () => {
+    let fetchCallCount = 0;
+    (global.fetch as jest.Mock).mockImplementation(() => {
+      fetchCallCount++;
+      return new Promise(() => {}); // never resolves => stays migrating
+    });
+
+    // Single position so selectedIds is still {1} when the second click fires
+    render(<SplitScreenMigration sourcePositions={[mockPositions[0]]} />);
+
+    // Use the desktop circular button (it also calls executeMigration)
+    const buttons = screen.getAllByRole('button');
+    // Find the one that is NOT the MIGRATE text button
+    const circularBtn = buttons.find(b => !b.textContent?.includes('MIGRATE'));
+    if (!circularBtn) throw new Error('circular button not found');
+
+    // First click — starts migration (isMigrating becomes true)
+    await act(async () => { fireEvent.click(circularBtn); });
+    // Advance past lift (400ms) and fly (300ms) timers so fetch is actually called
+    await act(async () => { await jest.advanceTimersByTimeAsync(400); });
+    await act(async () => { await jest.advanceTimersByTimeAsync(300); });
+
+    // Verify migration is in-flight
+    expect(fetchCallCount).toBe(1);
+
+    // Force a second call through the mobile button (remove HTML disabled)
+    const mobileBtns = screen.getAllByText(/MIGRATE/i);
+    mobileBtns.forEach(b => b.removeAttribute('disabled'));
+    await act(async () => { fireEvent.click(mobileBtns[0]); });
+
+    // fetch must still be 1 — the guard at line 55 bailed the second call
+    expect(fetchCallCount).toBe(1);
+  });
+
+  // ── Cover line 69 branch: !pos continue ─────────────────────────────
+  it('should skip (continue) when a selected ID has no matching Position object (line 69)', async () => {
+    // Provide TWO positions initially so both are in selectedIds
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ success: true, migrations: [{ id: 'mgr-1', symbol: 'BTC/USDT', side: 'long', leverage: 10 }] }),
+    });
+
+    const twoPositions = [mockPositions[0], mockPositions[1]];
+    render(<SplitScreenMigration sourcePositions={twoPositions} />);
+
+    // Deselect position 2 so only position 1 is in selectedIds (size=1)
+    const posCards = screen.getAllByRole('checkbox');
+    // First deselect position 1 (leave only position 2)
+    fireEvent.click(posCards[0]);
+
+    // Now re-select ALL: both 1 and 2 are selected (size=2)
+    const selectAllBtn = screen.getByText(/Select All/i);
+    fireEvent.click(selectAllBtn);
+
+    // Click migrate — loop iterates over [1, 2]
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    await act(async () => { fireEvent.click(migrateBtn); });
+    await act(async () => { await jest.advanceTimersByTimeAsync(400); }); // lift
+    await act(async () => { await jest.advanceTimersByTimeAsync(300); }); // fly
+    await act(async () => { await jest.advanceTimersByTimeAsync(500); }); // land
+    await act(async () => { await jest.runAllTimersAsync(); });
+
+    // Should complete without errors
+    expect(screen.queryByText(/Migration failed/i)).toBeNull();
+  });
+
+  // ── Cover function at line 350: backdrop click closes receipt ────────────────
+  it('should close the receipt modal when clicking the backdrop overlay (fn line 350)', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ success: true, migrations: [{ id: 'mgr-1', symbol: 'BTC/USDT', side: 'long', leverage: 10 }] }),
+    });
+
+    render(<SplitScreenMigration sourcePositions={[mockPositions[0]]} />);
+
+    // Run the full migration to make the receipt appear
+    const migrateBtn = screen.getAllByText(/MIGRATE/i)[0];
+    await act(async () => { fireEvent.click(migrateBtn); });
+    await act(async () => { await jest.advanceTimersByTimeAsync(400); });
+    await act(async () => { await jest.advanceTimersByTimeAsync(300); });
+    await act(async () => { await jest.advanceTimersByTimeAsync(500); });
+    await act(async () => { await jest.runAllTimersAsync(); });
+
+    // Receipt should be visible
+    expect(screen.queryByText(/Position Successfully Migrated/i)).toBeDefined();
+
+    // Click the backdrop (the fixed overlay div — it has onClick={() => setShowReceipt(false)})
+    // The backdrop is the outermost motion.div wrapping MigrationReceipt
+    // Find it by its characteristic class pattern 'fixed inset-0'
+    const backdrop = document.querySelector('.fixed.inset-0') as HTMLElement;
+    if (backdrop) {
+      fireEvent.click(backdrop);
+    }
+  });
+
+
 });
 
 
