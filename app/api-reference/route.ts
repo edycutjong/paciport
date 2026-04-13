@@ -10,6 +10,7 @@ export const GET = ApiReference({
     ogTitle: 'PaciPort API Reference',
     ogDescription: '1-click perpetual futures migration API for Pacifica Exchange.',
   },
+  favicon: '/logo.png',
   customCss: `
     :root {
       --scalar-color-1: #06b6d4;
