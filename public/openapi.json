@@ -1,0 +1,323 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PaciPort Migration API",
+    "version": "1.0.0",
+    "description": "Real-time cross-exchange perpetual futures migration engine. Delta-neutral execution with sub-200ms position transfers from Binance → Pacifica Exchange.",
+    "contact": {
+      "name": "PaciPort",
+      "url": "https://github.com/edycutjong/paciport"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Positions",
+      "description": "Fetch open perpetual futures positions from connected exchanges"
+    },
+    {
+      "name": "Migration",
+      "description": "Execute delta-neutral position migrations between exchanges"
+    },
+    {
+      "name": "History",
+      "description": "Retrieve migration history and execution logs"
+    }
+  ],
+  "paths": {
+    "/api/positions": {
+      "get": {
+        "operationId": "getPositions",
+        "summary": "List open positions",
+        "description": "Returns all open perpetual futures positions from the connected source exchange (Binance). Each position includes notional value, unrealized PnL, leverage, and migration eligibility.",
+        "tags": ["Positions"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved positions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "positions": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Position" }
+                    }
+                  },
+                  "required": ["positions"]
+                },
+                "example": {
+                  "positions": [
+                    {
+                      "id": "pos-btc-1",
+                      "symbol": "BTC/USDT:USDT",
+                      "displaySymbol": "BTC-PERP",
+                      "side": "long",
+                      "size": 0.5,
+                      "entryPrice": 61200,
+                      "currentPrice": 62500,
+                      "leverage": 10,
+                      "marginUsd": 3125,
+                      "unrealizedPnlUsd": 650,
+                      "notionalUsd": 31250,
+                      "selectedForMigration": true
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/migrate": {
+      "post": {
+        "operationId": "executeMigration",
+        "summary": "Execute position migration",
+        "description": "Atomically closes selected positions on the source exchange (Binance) and reopens them on Pacifica in a delta-neutral operation. Each position is processed concurrently. Returns immediately with pending migration IDs — execution runs in the background.",
+        "tags": ["Migration"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MigrationRequest" },
+              "example": {
+                "positionIds": ["pos-btc-1", "pos-eth-2"],
+                "maxSlippage": 0.001,
+                "dryRun": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Migration initiated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "migrations": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Migration" }
+                    }
+                  },
+                  "required": ["success", "migrations"]
+                },
+                "example": {
+                  "success": true,
+                  "migrations": [
+                    {
+                      "id": "mgr-abc123",
+                      "positionId": "pos-btc-1",
+                      "sourceExchange": "binance",
+                      "destinationExchange": "pacifica",
+                      "symbol": "BTC/USDT:USDT",
+                      "side": "long",
+                      "size": 0.5,
+                      "leverage": 10,
+                      "sourceClosePrice": null,
+                      "destOpenPrice": null,
+                      "slippagePct": null,
+                      "maxSlippagePct": 0.001,
+                      "executionTimeMs": null,
+                      "status": "pending",
+                      "errorMessage": null,
+                      "createdAt": "2026-04-13T08:00:00.000Z",
+                      "completedAt": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No positions selected",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "No positions selected" }
+              }
+            }
+          },
+          "404": {
+            "description": "Positions not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": { "error": "Positions not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/history": {
+      "get": {
+        "operationId": "getMigrationHistory",
+        "summary": "List migration history",
+        "description": "Returns all past and in-progress migrations including execution time, slippage, source/destination close prices, and final status.",
+        "tags": ["History"],
+        "responses": {
+          "200": {
+            "description": "Migration history retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "migrations": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Migration" }
+                    }
+                  },
+                  "required": ["migrations"]
+                },
+                "example": {
+                  "migrations": [
+                    {
+                      "id": "mgr-abc123",
+                      "positionId": "pos-btc-1",
+                      "sourceExchange": "binance",
+                      "destinationExchange": "pacifica",
+                      "symbol": "BTC/USDT:USDT",
+                      "side": "long",
+                      "size": 0.5,
+                      "leverage": 10,
+                      "sourceClosePrice": 62500,
+                      "destOpenPrice": 62503.12,
+                      "slippagePct": 0.000049,
+                      "maxSlippagePct": 0.001,
+                      "executionTimeMs": 187,
+                      "status": "completed",
+                      "errorMessage": null,
+                      "createdAt": "2026-04-13T08:00:00.000Z",
+                      "completedAt": "2026-04-13T08:00:00.187Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Position": {
+        "type": "object",
+        "description": "An open perpetual futures position on a connected exchange",
+        "properties": {
+          "id": { "type": "string", "description": "Unique position identifier", "example": "pos-btc-1" },
+          "symbol": { "type": "string", "description": "Exchange symbol format", "example": "BTC/USDT:USDT" },
+          "displaySymbol": { "type": "string", "description": "Human-readable symbol", "example": "BTC-PERP" },
+          "side": { "type": "string", "enum": ["long", "short"], "description": "Position direction" },
+          "size": { "type": "number", "description": "Position size in base asset units", "example": 0.5 },
+          "entryPrice": { "type": "number", "description": "Average entry price in USDT", "example": 61200 },
+          "currentPrice": { "type": "number", "description": "Current mark price in USDT", "example": 62500 },
+          "leverage": { "type": "integer", "description": "Leverage multiplier", "example": 10 },
+          "marginUsd": { "type": "number", "description": "Margin (collateral) in USD", "example": 3125 },
+          "unrealizedPnlUsd": { "type": "number", "description": "Unrealized profit/loss in USD", "example": 650 },
+          "notionalUsd": { "type": "number", "description": "Total notional value in USD", "example": 31250 },
+          "selectedForMigration": { "type": "boolean", "description": "Whether selected for next migration batch" }
+        },
+        "required": ["id", "symbol", "displaySymbol", "side", "size", "entryPrice", "currentPrice", "leverage", "marginUsd", "unrealizedPnlUsd", "notionalUsd", "selectedForMigration"]
+      },
+      "Migration": {
+        "type": "object",
+        "description": "A single position migration execution record",
+        "properties": {
+          "id": { "type": "string", "description": "Unique migration ID", "example": "mgr-abc123" },
+          "positionId": { "type": "string", "description": "Source position ID", "example": "pos-btc-1" },
+          "sourceExchange": { "type": "string", "description": "Origin exchange", "example": "binance" },
+          "destinationExchange": { "type": "string", "description": "Target exchange", "example": "pacifica" },
+          "symbol": { "type": "string", "example": "BTC/USDT:USDT" },
+          "side": { "type": "string", "enum": ["long", "short"] },
+          "size": { "type": "number", "example": 0.5 },
+          "leverage": { "type": "integer", "example": 10 },
+          "sourceClosePrice": { "type": "number", "nullable": true, "description": "Price at which source position was closed", "example": 62500 },
+          "destOpenPrice": { "type": "number", "nullable": true, "description": "Price at which destination position was opened", "example": 62503.12 },
+          "slippagePct": { "type": "number", "nullable": true, "description": "Actual slippage as decimal (0.00005 = 0.005%)", "example": 0.000049 },
+          "maxSlippagePct": { "type": "number", "description": "Maximum allowed slippage", "example": 0.001 },
+          "executionTimeMs": { "type": "integer", "nullable": true, "description": "Total execution time in milliseconds", "example": 187 },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "executing", "completed", "failed", "rolled_back", "warning"],
+            "description": "Current migration status"
+          },
+          "errorMessage": { "type": "string", "nullable": true, "description": "Error detail if status is failed" },
+          "createdAt": { "type": "string", "format": "date-time", "example": "2026-04-13T08:00:00.000Z" },
+          "completedAt": { "type": "string", "format": "date-time", "nullable": true, "example": "2026-04-13T08:00:00.187Z" }
+        },
+        "required": ["id", "positionId", "sourceExchange", "destinationExchange", "symbol", "side", "size", "leverage", "maxSlippagePct", "status", "createdAt"]
+      },
+      "MigrationRequest": {
+        "type": "object",
+        "description": "Request body for initiating a migration batch",
+        "properties": {
+          "positionIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "IDs of positions to migrate",
+            "example": ["pos-btc-1", "pos-eth-2"]
+          },
+          "maxSlippage": {
+            "type": "number",
+            "description": "Max allowed slippage as decimal (0.001 = 0.1%)",
+            "example": 0.001,
+            "minimum": 0,
+            "maximum": 0.05
+          },
+          "dryRun": {
+            "type": "boolean",
+            "description": "If true, simulates without executing on exchange",
+            "example": false
+          }
+        },
+        "required": ["positionIds", "maxSlippage", "dryRun"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "description": "Human-readable error message", "example": "No positions selected" }
+        },
+        "required": ["error"]
+      }
+    }
+  }
+}
