@@ -6,12 +6,10 @@ import React from 'react';
 
 // Mock framer-motion to avoid animation issues in jsdom
 jest.mock('framer-motion', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const makeEl = (tag: string) => {
     const El = ({ children, animate, initial, exit, transition, whileHover, whileTap, variants, ...rest }: any) => {
       void animate; void initial; void exit; void transition; void whileHover; void whileTap; void variants;
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      return require('react').createElement(tag, rest, children);
+      return React.createElement(tag, rest, children);
     };
     El.displayName = `MotionMock(${tag})`;
     return El;
@@ -33,7 +31,6 @@ jest.mock('framer-motion', () => {
       img: makeEl('img'),
       svg: makeEl('svg'),
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     AnimatePresence: ({ children }: any) => children,
     useSpring: (initial: number) => ({ set: jest.fn(), get: () => initial }),
     useTransform: (_source: unknown, fn: (v: number) => string) => fn(0),
