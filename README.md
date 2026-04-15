@@ -17,6 +17,7 @@
 
 <p align="center">
   <a href="https://paciport.edycu.dev"><img src="https://img.shields.io/badge/🚀_Live_Demo-paciport.edycu.dev-blue?style=for-the-badge" alt="Live Demo" /></a>
+  <a href="https://youtu.be/G3rCKOliOI4"><img src="https://img.shields.io/badge/🎬_Video_Demo-YouTube-red?style=for-the-badge&logo=youtube" alt="Video Demo" /></a>
   <a href="https://github.com/edycutjong/paciport"><img src="https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github" alt="GitHub" /></a>
 </p>
 
