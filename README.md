@@ -29,15 +29,10 @@ PaciPort is a delta-neutral position migration engine built for the **Pacifica E
 ## 📸 See it in Action
 
 <p align="center">
-  <img src="docs/architecture.png" alt="PaciPort Architecture" width="750" />
+  <img src="https://github.com/user-attachments/assets/7d2494d1-0c95-4bc5-b1e2-86ef24ba25db" alt="PaciPort Migration Demo" width="100%" />
 </p>
 
-### Core Migration Flow
-
-1. **Source Panel (Binance)** — View all open positions with live PnL, select positions to migrate
-2. **Migration Engine** — Atomic delta-neutral swap executes both legs concurrently via `Promise.allSettled`
-3. **Destination Panel (Pacifica)** — Positions appear instantly with Framer Motion teleport animation
-4. **Migration Receipt** — Detailed execution report with per-leg slippage and timing
+> **Select → Teleport → Done.** Positions fly from Binance to Pacifica with atomic delta-neutral execution. Zero market exposure, zero price risk.
 
 ---
 
@@ -60,16 +55,6 @@ PaciPort executes a **delta-neutral swap** — simultaneously closing a position
 - **Migration receipt** — detailed execution report with slippage analysis
 - **Fee savings calculator** — shows annual savings from lower maker/taker fees
 - **Position teleport animation** — Framer Motion "teleport" effect as positions move between panels
-
----
-
-## 📸 See it in Action
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/7d2494d1-0c95-4bc5-b1e2-86ef24ba25db" alt="PaciPort Migration Demo" width="100%" />
-</p>
-
-> **Select → Teleport → Done.** Positions fly from Binance to Pacifica with atomic delta-neutral execution. Zero market exposure, zero price risk.
 
 ---
 
