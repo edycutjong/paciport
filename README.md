@@ -6,6 +6,8 @@
 <p align="center"><strong>1-Click Perpetual Position Migration</strong></p>
 
 <p align="center">
+  <a href="https://paciport.edycu.dev"><img src="https://img.shields.io/badge/Live-Demo-brightgreen.svg" alt="Live Demo" /></a>
+  <a href="https://github.com/edycutjong/paciport"><img src="https://img.shields.io/badge/GitHub-Repo-181717.svg?logo=github" alt="GitHub" /></a>
   <img src="https://img.shields.io/badge/Next.js-16.2-black?logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/React-19.2-61dafb?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/CCXT-4.5-green" alt="CCXT" />
@@ -21,6 +23,21 @@
 > Migrate open perpetual positions from any exchange to Pacifica in **< 2 seconds**. Zero market exposure. Zero price risk.
 
 PaciPort is a delta-neutral position migration engine built for the **Pacifica Exchange Hackathon**. It enables traders to teleport their open perp positions between exchanges with atomic, slippage-minimized execution — closing on the source and opening on the destination in parallel to maintain continuous market exposure.
+
+---
+
+## 📸 See it in Action
+
+<p align="center">
+  <img src="docs/architecture.png" alt="PaciPort Architecture" width="750" />
+</p>
+
+### Core Migration Flow
+
+1. **Source Panel (Binance)** — View all open positions with live PnL, select positions to migrate
+2. **Migration Engine** — Atomic delta-neutral swap executes both legs concurrently via `Promise.allSettled`
+3. **Destination Panel (Pacifica)** — Positions appear instantly with Framer Motion teleport animation
+4. **Migration Receipt** — Detailed execution report with per-leg slippage and timing
 
 ---
 
@@ -101,7 +118,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-> **Note:** The app runs fully in demo mode without any environment variables. All exchange credentials are mocked and sandbox mode is enforced.
+> **Note for Judges:** The app runs fully in **demo mode** without any environment variables. All exchange credentials are mocked and sandbox mode is enforced. No accounts, API keys, or configuration needed — just `npm install && npm run dev`.
 
 ### Run Development Server
 
@@ -132,18 +149,23 @@ paciport/
 │   ├── layout.tsx                # Root layout with metadata
 │   └── page.tsx                  # Main dashboard (3-column layout)
 ├── components/
-│   ├── ExchangePanelHeader.tsx   # Exchange connection status header
+│   ├── ExchangeConnector.tsx     # Exchange API key connection modal
+│   ├── ExchangeLogo.tsx          # Dynamic exchange logo renderer
+│   ├── FeeSavingsCard.tsx        # Annual fee savings calculator
+│   ├── HeroSection.tsx           # Landing hero with value prop
 │   ├── MigrateButton.tsx         # Animated migration trigger
-│   ├── MigrationProgress.tsx     # Step-by-step execution timeline
 │   ├── MigrationReceipt.tsx      # Post-migration execution report
-│   └── PositionCard.tsx          # Individual position display card
+│   ├── PositionCard.tsx          # Individual position display card
+│   ├── PositionTable.tsx         # Sortable position data table
+│   └── SplitScreenMigration.tsx  # Main 3-panel migration dashboard
 ├── lib/
 │   ├── demo-data.ts              # Demo positions + price simulator
 │   ├── exchange-client.ts        # CCXT client factory + caching
 │   ├── migration-engine.ts       # Core delta-neutral swap engine
 │   ├── supabase.ts               # Supabase client + credential vault
 │   └── types.ts                  # TypeScript interfaces
-├── public/                       # Static assets
+├── public/                       # Static assets (logo, OpenAPI spec)
+├── .env.example                  # Environment template for judges
 ├── package.json
 ├── tsconfig.json
 └── next.config.ts
@@ -254,6 +276,16 @@ The UI uses a custom dark theme with CSS custom properties:
 - **TVL acquisition tool** — removes the #1 barrier to switching exchanges
 - **Network effect** — each migration adds liquidity to Pacifica's order books  
 - **Fee incentive** — savings calculator shows traders exactly how much they'd save annually
+
+### Sponsor Integration Points
+
+| Integration | File | Description |
+|---|---|---|
+| CCXT Exchange API | `lib/exchange-client.ts` | Unified trading client supporting Pacifica + 100 exchanges |
+| Migration Engine | `lib/migration-engine.ts` | Delta-neutral swap with atomic rollback |
+| Position Fetching | `app/api/positions/route.ts` | Live position data with real-time PnL |
+| Migration Endpoint | `app/api/migrate/route.ts` | POST handler for executing position swaps |
+| Fee Calculator | `components/FeeSavingsCard.tsx` | Annual savings comparison vs competitor fees |
 
 ---
 
