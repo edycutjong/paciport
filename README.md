@@ -13,6 +13,11 @@
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript" alt="TypeScript" />
 </p>
 
+<p align="center">
+  <a href="https://paciport.edycu.dev"><img src="https://img.shields.io/badge/🚀_Live_Demo-paciport.edycu.dev-blue?style=for-the-badge" alt="Live Demo" /></a>
+  <a href="https://github.com/edycutjong/paciport"><img src="https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github" alt="GitHub" /></a>
+</p>
+
 > Migrate open perpetual positions from any exchange to Pacifica in **< 2 seconds**. Zero market exposure. Zero price risk.
 
 PaciPort is a delta-neutral position migration engine built for the **Pacifica Exchange Hackathon**. It enables traders to teleport their open perp positions between exchanges with atomic, slippage-minimized execution — closing on the source and opening on the destination in parallel to maintain continuous market exposure.
@@ -41,11 +46,20 @@ PaciPort executes a **delta-neutral swap** — simultaneously closing a position
 
 ---
 
+## 📸 See it in Action
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7d2494d1-0c95-4bc5-b1e2-86ef24ba25db" alt="PaciPort Migration Demo" width="100%" />
+</p>
+
+> **Select → Teleport → Done.** Positions fly from Binance to Pacifica with atomic delta-neutral execution. Zero market exposure, zero price risk.
+
+---
+
 ## 🏗️ Architecture
 
 ![Architecture](./docs/architecture.png)
 
----
 
 ## 🛠️ Tech Stack
 

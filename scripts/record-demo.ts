@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
-const AUDIO_PATH = '/Users/edycu/Projects/DemoStudio/public/projects/PaciPort/demo_audio.mp3';
+const AUDIO_PATH = path.resolve(__dirname, '..', 'recordings', 'demo_audio.mp3');
 
 async function runDemo() {
   console.log('🚀 Starting PaciPort Demo Recording Script...');
@@ -75,7 +75,7 @@ async function runDemo() {
   
   const videoPath = await page.video()?.path();
   if (videoPath) {
-    const finalPath = path.join('/Users/edycu/Projects/DemoStudio/public/projects/PaciPort', 'PaciPort_Demo.webm');
+    const finalPath = path.resolve(__dirname, '..', 'recordings', 'PaciPort_Demo.webm');
     const finalDir = path.dirname(finalPath);
     if (!fs.existsSync(finalDir)) fs.mkdirSync(finalDir, { recursive: true });
     fs.renameSync(videoPath, finalPath);

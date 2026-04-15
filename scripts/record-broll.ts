@@ -19,26 +19,33 @@ async function runBRoll() {
 
   console.log('Loading PaciPort...');
   await page.goto('http://localhost:3000');
+  await page.waitForLoadState('networkidle');
   await page.waitForTimeout(2000);
   
+  // Navigate to dashboard via "Try Demo Account" button
+  console.log('Entering demo mode...');
+  await page.locator('text="Try Demo Account"').click();
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(2000);
+
   await smoothMouseMove(page, 960, 540);
   await page.waitForTimeout(1000);
 
-  console.log('Selecting positions...');
-  await page.click('text="Select All"');
-  await page.waitForTimeout(1000);
-
-  console.log('Executing Migration...');
-  await page.click('text="Teleport"'); // Based on the "Position Teleporter" theme and likely button text
+  // Positions are pre-selected on load — go straight to migrate
+  await page.waitForTimeout(1500);
+  // Click the migrate/teleport button
+  // Desktop migrate button is the circular ArrowRight inside the lg:flex center column
+  const migrateBtn = page.locator('.hidden.lg\\:flex button').first();
+  await migrateBtn.click();
   
   await page.waitForTimeout(8000);
 
-  await page.close();
+  // Close context first to finalize the video, then retrieve path
   await context.close();
   
   const videoPath = await page.video()?.path();
-  if (videoPath) {
-    const finalPath = path.join('/Users/edycu/Projects/DemoStudio/public/projects/PaciPort', 'PaciPort_BRoll.webm');
+  if (videoPath && fs.existsSync(videoPath)) {
+    const finalPath = path.resolve(__dirname, '..', 'recordings', 'PaciPort_BRoll.webm');
     const finalDir = path.dirname(finalPath);
     if (!fs.existsSync(finalDir)) fs.mkdirSync(finalDir, { recursive: true });
     fs.renameSync(videoPath, finalPath);
